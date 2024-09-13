@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kişisel Web Sayfası</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .nav {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+        }
+        .photo-viewer {
+            position: relative;
+            max-width: 100%;
+            margin: auto;
+        }
+        .photo-viewer img {
+            width: 100%;
+            height: auto;
+        }
+        .nav-arrows {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+        .nav-arrows button {
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav">
+            <a href="#" onclick="showSection('amortisor')">Amortisör</a>
+            <a href="#" onclick="showSection('buharTahliye')">BuharTahliye</a>
+            <a href="#" onclick="showSection('nozzle')">Nozzle</a>
+        </div>
+
+        <!-- Amortisör Bölmesi -->
+        <div id="amortisor" class="section">
+            <div class="photo-viewer">
+                <img id="photo" src="placeholder.png" alt="Fotoğraf">
+                <div class="nav-arrows">
+                    <button onclick="prevPhoto()">&#10094;</button>
+                    <button onclick="nextPhoto()">&#10095;</button>
+                </div>
+            </div>
+            <a href="#" onclick="showSection('main')">Ana Bölmeye Dön</a>
+        </div>
+
+        <!-- BuharTahliye Bölmesi -->
+        <div id="buharTahliye" class="section">
+            <p>BuharTahliye içeriği buraya gelecek.</p>
+            <a href="#" onclick="showSection('main')">Ana Bölmeye Dön</a>
+        </div>
+
+        <!-- Nozzle Bölmesi -->
+        <div id="nozzle" class="section">
+            <p>Nozzle içeriği buraya gelecek.</p>
+            <a href="#" onclick="showSection('main')">Ana Bölmeye Dön</a>
+        </div>
+
+        <!-- Ana Bölme -->
+        <div id="main" class="section active">
+            <h1>Hoşgeldiniz!</h1>
+            <p>Bölmelere geçmek için yukarıdaki bağlantıları kullanabilirsiniz.</p>
+        </div>
+    </div>
+
+    <script>
+        const sections = {
+            'main': document.getElementById('main'),
+            'amortisor': document.getElementById('amortisor'),
+            'buharTahliye': document.getElementById('buharTahliye'),
+            'nozzle': document.getElementById('nozzle')
+        };
+
+        function showSection(sectionId) {
+            for (let key in sections) {
+                sections[key].classList.remove('active');
+            }
+            sections[sectionId].classList.add('active');
+        }
+
+        let photos = ['placeholder.png']; // Buraya gerçek fotoğrafların yollarını ekle
+        let currentPhotoIndex = 0;
+
+        function showPhoto(index) {
+            if (index >= 0 && index < photos.length) {
+                document.getElementById('photo').src = photos[index];
+                currentPhotoIndex = index;
+            }
+        }
+
+        function prevPhoto() {
+            if (currentPhotoIndex > 0) {
+                showPhoto(currentPhotoIndex - 1);
+            }
+        }
+
+        function nextPhoto() {
+            if (currentPhotoIndex < photos.length - 1) {
+                showPhoto(currentPhotoIndex + 1);
+            }
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                showSection('main');
+            } else if (event.key === 'ArrowLeft') {
+                prevPhoto();
+            } else if (event.key === 'ArrowRight') {
+                nextPhoto();
+            }
+        });
+    </script>
+</body>
+</html>
